@@ -1,51 +1,35 @@
-import numpy as np    # numpy : 계산기 라이브러리 (배열을 사용한 연산을 통해 연산 속도를 높임.)
-import matplotlib.pyplot as plt   # matplotlib : 그래프 그려주는 라이브러리
+import numpy as np
+import matplotlib.pyplot as plt
 
-# 기본 물리 상수 설정
-# - 중력 상수(G), 태양 질량(M_sun), 1 AU 단위 변환 등을 정의.
-G = 6.67430e-11  # 중력 상수 (m^3/kg/s^2), float 형 변수
-M_sun = 1.989e30  # 태양 질량 (kg), float 형 변수
-AU_to_m = 1.496e11  # 1 AU = 1.496e11 m, float 형 변수
-year_to_sec = 365 * 24 * 3600  # 1년을 초로 변환,  int 형 변수
+G = 6.67430e-11
+M_sun = 1.989e30
+AU_to_m = 1.496e11
+year_to_sec = 365 * 24 * 3600
 
-# 공전 주기(T) 값 설정 (년 단위)
-T_values_years = np.array([1.0, 2.0, 3.0, 4.0])  # 년 단위, float 형 데이터를 넘파이 배열에 보관.
-T_values_sec = T_values_years * year_to_sec  # 초 단위 변환
+T_values_years = np.array([1.0, 2.0, 3.0, 4.0])
+T_values_sec = T_values_years * year_to_sec
 
-# 비례상수 k 값 설정 후 공전 반지름(r) 계산
-# - 케플러 제3법칙: r^3 ∝ T^2 관계 적용 → r^3 = (G * M_sun / (4π²)) * T²
-k = G * M_sun / (4 * np.pi**2)  # 비례상수 k 계산
-r_values_m = (k * T_values_sec**2) ** (1/3)  # r 값 계산 (m 단위)
-r_values_AU = r_values_m / AU_to_m  # AU 단위 변환
+k = G * M_sun / (4 * np.pi**2)
+r_values_m = (k * T_values_sec**2) ** (1/3)
+r_values_AU = r_values_m / AU_to_m
 
-# 원 궤도 시각화
-fig, ax = plt.subplots(figsize=(8, 8))    # figsize 을 통해 그래프 크기 조절.
-colors = ['r', 'g', 'b', 'purple']    # char 형 데이터들을 리스트로 저장.
+fig, ax = plt.subplots(figsize=(8, 8))
+colors = ['r', 'g', 'b', 'purple']
 
-'''
-반복문 for 문 사용
-zip 함수를 사용해 순서에 해당하는 T, r 값을 하나의 쌍으로 지정.
-enumerate : (T, r) 쌍이 몇 번째 쌍인지 인덱스를 포함하여 알려주는 함수.
-'''
 for i, (T, r) in enumerate(zip(T_values_years, r_values_m)):
-    theta = np.linspace(0, 2 * np.pi, 300)  # 0 ~ 360도 범위
-    x = r * np.cos(theta)  # 원 궤도 x 좌표
-    y = r * np.sin(theta)  # 원 궤도 y 좌표
+    theta = np.linspace(0, 2 * np.pi, 300)
+    x = r * np.cos(theta)
+    y = r * np.sin(theta)
 
-    # - 행성의 원 궤도를 플로팅
     ax.plot(x / AU_to_m, y / AU_to_m, color=colors[i], label=f"T={T:.2f} years, r={r_values_AU[i]:.2f} AU")
-
-    # - 태양을 원점(0,0)에 배치
     ax.scatter(0, 0, color='yellow', marker='o', s=200, label="Sun" if i == 0 else "")
 
-# 그래프 설정
-ax.set_xlabel("X Position (AU)")  # x 축에 대한 label 지정 옵션
-ax.set_ylabel("Y Position (AU)")  # y 축에 대한 label 지정 옵션
-ax.set_title("Circular Orbits and Kepler's 3rd Law")  # 그래프 제목 지정 옵션
-ax.legend() # 범례 지정 옵션
-ax.set_aspect('equal')  # 원형 유지
-plt.grid()  # 그래프 격자 지정 옵션
-plt.show()  #그래프 출력
+ax.set_xlabel("X Position (AU)")
+ax.set_ylabel("Y Position (AU)")
+ax.set_title("Circular Orbits and Kepler's 3rd Law")
+ax.legend()
+ax.set_aspect('equal')
+plt.grid()
+plt.show()
 
-# 결과 데이터 출력
 list(zip(T_values_years, r_values_AU))

@@ -1,0 +1,64 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+from IPython.display import HTML
+
+planets = {
+    "Mercury": {"radius": 0.39, "period": 0.24, "color": "gray"},
+    "Venus":   {"radius": 0.72, "period": 0.62, "color": "orange"},
+    "Earth":   {"radius": 1.00, "period": 1.00, "color": "blue"},
+    "Mars":    {"radius": 1.52, "period": 1.88, "color": "red"},
+    "Jupiter": {"radius": 5.20, "period": 11.86, "color": "brown"},
+    "Saturn":  {"radius": 9.58, "period": 29.46, "color": "gold"},
+    "Uranus":  {"radius": 19.20, "period": 84.01, "color": "cyan"},
+    "Neptune": {"radius": 30.05, "period": 164.8, "color": "purple"},
+}
+
+frames = 1000
+interval = 10
+time_span_years = 170
+
+times = np.linspace(0, time_span_years, frames)
+
+fig, ax = plt.subplots(figsize=(6, 6))
+ax.set_facecolor("black")
+ax.set_aspect("equal")
+ax.set_xlim(-35, 35)
+ax.set_ylim(-35, 35)
+ax.set_xticks([])
+ax.set_yticks([])
+ax.set_title("Solar System Planet Orbits", color="white")
+ax.tick_params(colors="white")
+
+ax.plot(0, 0, "o", color="yellow", markersize=12)
+
+planet_dots = []
+planet_trails = []
+
+for name, data in planets.items():
+    dot, = ax.plot([], [], "o", color=data["color"], markersize=6, label=name)
+    trail, = ax.plot([], [], "-", color=data["color"], linewidth=1, alpha=0.6)
+    planet_dots.append(dot)
+    planet_trails.append(trail)
+
+ax.legend(facecolor="black", labelcolor="white", fontsize=8)
+
+def update(frame):
+    for i, (name, data) in enumerate(planets.items()):
+        r = data["radius"]
+        T = data["period"]
+        theta = 2 * np.pi * (times[frame] / T)
+        x, y = r * np.cos(theta), r * np.sin(theta)
+
+        planet_dots[i].set_xdata([x])
+        planet_dots[i].set_ydata([y])
+
+        trail_x = r * np.cos(2 * np.pi * (times[:frame+1] / T))
+        trail_y = r * np.sin(2 * np.pi * (times[:frame+1] / T))
+        planet_trails[i].set_data(trail_x, trail_y)
+
+    return planet_dots + planet_trails
+
+anim = FuncAnimation(fig, update, frames=frames, interval=interval, blit=True)
+
+HTML(anim.to_jshtml())

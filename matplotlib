@@ -6,7 +6,7 @@ ax = fig.add_subplot(111, projection='3d')
 
 import numpy as np
 
-x = np.arange(0, 1000, 0.1)
+x = np.arange(0, 10, 0.1)
 y = np.sin(x)
 z = np.cos(x)
 ax.plot(x, y, z)

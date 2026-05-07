@@ -33,3 +33,6 @@ plt.grid()
 plt.show()
 
 list(zip(T_values_years, r_values_AU))
+
+
+

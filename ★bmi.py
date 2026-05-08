@@ -1,0 +1,23 @@
+#BMI 지수 구하기
+
+hei=float(input('키(cm) 입력: '))
+wei=float(input('몸무게(kg) 입력: '))
+
+#키의 단위 변환 : cm => m : 1m = 100cm
+m_hei=hei/100
+
+bmi=wei/(m_hei**2)
+
+print('BMI 지수:',round(bmi,1))
+
+#------
+if bmi<18.5:
+    print('저체중')
+elif bmi<25:
+    print('보통')
+elif bmi<30:
+    print('과체중')
+elif bmi<40:
+    print('비만')
+else:
+    print('고도 비만')

@@ -1,0 +1,4 @@
+class Car:
+  name = ''
+  speed = 0
+  fuel = 0

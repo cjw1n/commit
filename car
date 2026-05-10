@@ -1,3 +1,5 @@
 class Car:
   name = ''
   model = ''
+  speed = 0
+  fuel = 0

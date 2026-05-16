@@ -3,3 +3,6 @@ class Car:
   model = ''
   speed = 0
   fuel = 0
+
+  def __init__(self,name,model,speed,fuel):
+    self.name=name

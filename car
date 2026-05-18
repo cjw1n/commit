@@ -8,3 +8,5 @@ class Car:
     self.name=name
     self.model=model
     self.speed=speed
+    self.fuel=fuel
+

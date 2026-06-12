@@ -11,4 +11,4 @@ class Car:
     self.fuel=fuel
 
   def fuelCheck(self):
-    if 
+    if fuel
